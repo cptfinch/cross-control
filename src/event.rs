@@ -22,3 +22,23 @@ pub mod platform {
 pub mod platform {
     pub use windows::Win32::UI::Input::KeyboardAndMouse::{VIRTUAL_KEY, MOUSE_EVENT};
 }
+
+impl Event {
+    pub fn new_mouse_button(button: u8, pressed: bool) -> Option<Self> {
+        // Only allow buttons 1-5
+        if (1..=5).contains(&button) {
+            Some(Event::MouseButton { button, pressed })
+        } else {
+            None
+        }
+    }
+
+    pub fn new_key_press(code: u16, name: String) -> Option<Self> {
+        // Don't allow empty names
+        if name.is_empty() {
+            None
+        } else {
+            Some(Event::KeyPress { code, name })
+        }
+    }
+}
