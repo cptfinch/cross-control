@@ -1,6 +1,9 @@
 pub mod event;
 pub mod network;
 
+// Re-export main types for convenience
+pub use event::{Event, EventType, TransportType};
+
 #[cfg(test)]
 mod tests {
     use super::*;

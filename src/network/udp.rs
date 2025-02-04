@@ -8,15 +8,17 @@ use super::{Result, NetworkError};
 
 pub type BoxError = Box<dyn Error + Send + Sync>;
 
-pub async fn run_udp_server(event_queue: mpsc::Sender<Event>) -> Result<(), BoxError> {
+pub async fn run_udp_server(event_queue: mpsc::Sender<Event>) -> Result<()> {
     let socket = UdpSocket::bind("127.0.0.1:8081").await?;
     println!("UDP Server running on 127.0.0.1:8081");
     let mut buf = [0; 1024];
 
     loop {
-        let (len, addr) = socket.recv_from(&mut buf).await?;
-        let event: Event = serde_json::from_slice(&buf[..len])?;
-        event_queue.send(event).await?;
+        let (len, _addr) = socket.recv_from(&mut buf).await?;
+        let event: Event = serde_json::from_slice(&buf[..len])
+            .map_err(NetworkError::Serialization)?;
+        event_queue.send(event).await
+            .map_err(|_| NetworkError::ChannelSend)?;
     }
 }
 

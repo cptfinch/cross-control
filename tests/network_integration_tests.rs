@@ -2,6 +2,7 @@ use rust_barrier::network::{udp, tcp, NetworkError};
 use rust_barrier::event::{Event, EventType, TransportType};
 use tokio::sync::mpsc;
 use std::time::Duration;
+use serde_json;
 
 #[tokio::test]
 async fn test_udp_server_startup() {
@@ -74,4 +75,19 @@ async fn test_error_handling() {
     ).await;
     
     assert!(matches!(result, Err(NetworkError::Io(_))));
+}
+
+#[tokio::test]
+async fn test_basic_event_serialization() {
+    let event = Event {
+        event_type: EventType::Ping,  // We'll add this new event type
+        transport: TransportType::Fast,
+        sequence: 1,
+    };
+
+    let serialized = serde_json::to_string(&event).unwrap();
+    let deserialized: Event = serde_json::from_str(&serialized).unwrap();
+
+    assert_eq!(event.sequence, deserialized.sequence);
+    assert!(matches!(deserialized.event_type, EventType::Ping));
 } 

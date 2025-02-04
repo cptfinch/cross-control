@@ -13,4 +13,4 @@ pub enum NetworkError {
     ChannelSend,
 }
 
-pub type Result<T> = std::result::Result<T, NetworkError>; 
+pub type Result<T> = std::result::Result<T, NetworkError>;
