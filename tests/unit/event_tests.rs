@@ -37,4 +37,15 @@ fn test_control_events() {
 
     let error = Event::Error("connection lost".to_string());
     assert!(matches!(error, Event::Error(msg) if msg == "connection lost"));
-} 
+}
+
+#[test]
+fn test_event_constructors() {
+    // Test mouse button validation
+    assert!(Event::new_mouse_button(1, true).is_some());
+    assert!(Event::new_mouse_button(6, true).is_none());
+    
+    // Test key press validation
+    assert!(Event::new_key_press(65, "A".to_string()).is_some());
+    assert!(Event::new_key_press(65, "".to_string()).is_none());
+}
