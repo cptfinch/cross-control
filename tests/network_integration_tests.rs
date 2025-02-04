@@ -57,4 +57,13 @@ async fn test_invalid_data() {
     client.write_all(b"{invalid}").await.unwrap();
     let result = network::receive_event(&mut server_conn).await;
     assert!(matches!(result, Err(NetworkError::Serialization(_))));
+}
+
+#[tokio::test]
+async fn test_screen_switch() {
+    let listener = TcpListener::bind("127.0.0.1:8082").await.unwrap();
+    let client = TcpStream::connect("127.0.0.1:8082").await.unwrap();
+    let (mut server_conn, _) = listener.accept().await.unwrap();
+    
+    // ... rest of the test ...
 } 
