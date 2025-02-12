@@ -65,3 +65,53 @@ rust-barrier/
 - Create command-line interface
 - Add screen configuration
 
+## Development Roadmap
+
+### 1. Platform Support
+- [ ] Complete Linux X11 implementation
+  - [ ] Mouse event capture
+  - [ ] Keyboard event capture
+  - [ ] Event simulation
+- [ ] Complete Windows implementation
+  - [ ] Mouse event capture
+  - [ ] Keyboard event capture
+  - [ ] Event simulation
+
+### 2. Command Line Interface
+- [ ] Add CLI framework (clap/structopt)
+- [ ] Implement configuration commands
+- [ ] Add control commands
+- [ ] Create help documentation
+
+### 3. Screen Configuration
+- [ ] Implement screen layout configuration
+- [ ] Define relative screen positioning
+- [ ] Handle screen boundaries
+- [ ] Implement smooth transitions
+
+### 4. Testing
+- [ ] Complete platform-specific tests
+- [ ] Add integration tests
+- [ ] Implement performance benchmarks
+- [ ] Add stress tests
+
+### 5. Security
+- [ ] Implement secure handshake
+- [ ] Add encryption for network communication
+- [ ] Complete authentication system
+- [ ] Add security documentation
+
+### 6. Performance
+- [ ] Optimize event handling
+- [ ] Reduce latency
+- [ ] Implement proper benchmarking
+- [ ] Consider alternative serialization formats
+  - [ ] CBOR
+  - [ ] Bincode
+
+### 7. Documentation
+- [ ] Add API documentation
+- [ ] Create user setup guide
+- [ ] Write configuration documentation
+- [ ] Add architecture documentation
+

@@ -3,54 +3,54 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    rust-overlay.url = "github:oxalica/rust-overlay";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
+  outputs = { self, nixpkgs, rust-overlay, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
-          inherit system overlays;
+          inherit system;
+          overlays = [ (import rust-overlay) ];
         };
-        
+
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "rust-analyzer" "clippy" ];
         };
 
-        nativeBuildInputs = with pkgs; [
-          rustToolchain
-          cargo-watch
-          cargo-tarpaulin
+        nativeBuildInputs = with pkgs; [ 
           pkg-config
+          clang
         ];
 
         buildInputs = with pkgs; [
-          openssl
-          libiconv
-        ] ++ lib.optionals stdenv.isDarwin [
-          darwin.apple_sdk.frameworks.Security
-          darwin.apple_sdk.frameworks.SystemConfiguration
+          # X11 dependencies
+          xorg.libX11
+          xorg.libxcb
+          libxkbcommon
+          xkeyboard_config
         ];
-
       in
       {
         devShells.default = pkgs.mkShell {
           inherit nativeBuildInputs buildInputs;
 
+          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+            pkgs.xorg.libX11
+            pkgs.xorg.libxcb
+            pkgs.libxkbcommon
+          ];
+          
+          XKB_CONFIG_ROOT = "${pkgs.xkeyboard_config}/etc/X11/xkb";
+          
+          packages = [ rustToolchain ];
+
           RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
           
           shellHook = ''
-            echo "Rust development environment loaded!"
-            echo "Available commands:"
-            echo "  cargo build    - Build the project"
-            echo "  cargo test     - Run tests"
-            echo "  cargo watch -x test  - Run tests on file changes"
-            echo "  cargo tarpaulin    - Generate test coverage"
+            echo "Rust+X11 development environment loaded!"
+            echo "XKB config path: $XKB_CONFIG_ROOT"
           '';
         };
       }
