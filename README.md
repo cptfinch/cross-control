@@ -1,4 +1,4 @@
-# Rust Barrier - Share Your Mouse and Keyboard
+# Cross Control - Share Your Mouse and Keyboard
 
 ## What It Does
 - Controls multiple computers with one keyboard and mouse
