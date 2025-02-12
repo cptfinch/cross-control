@@ -115,3 +115,40 @@ rust-barrier/
 - [ ] Write configuration documentation
 - [ ] Add architecture documentation
 
+## Naming Considerations
+
+We considered several names that capture the project's purpose of sharing input devices across networked computers:
+
+1. **CrossControl**  
+   *Rationale*: Emphasizes controlling multiple systems across platforms  
+   *Relevance*: Matches the cross-platform event handling in [`event.rs`](src/event.rs#L4-L44)
+
+2. **InputBridge**  
+   *Rationale*: Focuses on bridging HID devices between machines  
+   *Code Connection*: Matches the network bridging in [`network/mod.rs`](src/network/mod.rs#L23-L48)
+
+3. **PeripheralNet**  
+   *Rationale*: Combines "peripherals" with network operations  
+   *Relevance*: Aligns with the input grabbing in [`X11Platform`](src/platform/x11.rs#L65-L93)
+
+4. **KVMesh**  
+   *Rationale*: Suggests a mesh network of KVMs  
+   *Connection*: Matches the multi-machine sync in [`conflict_tests.rs`](tests/sync/conflict_tests.rs#L3-L20)
+
+5. **SharedHID**  
+   *Rationale*: Technical term (Human Interface Devices)  
+   *Relevance*: Directly describes the keyboard/mouse sharing in [`platform_tests.rs`](tests/platform_tests.rs)
+
+The temporary name "rust-barrier" was chosen during early development as:
+- A Rust implementation of the Barrier concept
+- Simple placeholder until feature completion
+- Easy to find in search during initial phases
+
+**Final name selection will consider**:
+- [Crates.io availability](https://crates.io)
+- GitHub repository naming
+- Domain availability
+- Community feedback
+
+Contributors are welcome to propose alternatives through [issue discussions](#).
+
