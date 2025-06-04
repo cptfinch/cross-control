@@ -56,8 +56,8 @@ rust-barrier/
 │ ├── network/ (handles computer communication)
 │ └── lib.rs (ties everything together)
 └── tests/
-├── event_tests.rs (makes sure events work)
-└── network_tests.rs (makes sure computers talk)
+├── event_unit_tests.rs (makes sure events work)
+└── network_integration_tests.rs (makes sure computers talk)
 
 ## Next Steps
 - Add Linux X11 support
