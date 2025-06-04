@@ -44,13 +44,14 @@ impl X11Platform {
         // Create keymap using Keymap::new_from_names
         let keymap = xkb::Keymap::new_from_names(
             &context,
-            None,     // rules
-            None,     // model
-            None,     // layout
-            None,     // variant
-            None,     // options
-            xkb::KEYMAP_COMPILE_NO_FLAGS
-        ).ok_or_else(|| X11Error::KeymapError("Failed to create keymap".to_string()))?;
+            "",
+            "",
+            "",
+            "",
+            None,
+            xkb::KEYMAP_COMPILE_NO_FLAGS,
+        )
+        .ok_or_else(|| X11Error::KeymapError("Failed to create keymap".to_string()))?;
 
         let state = xkb::State::new(&keymap);
 
